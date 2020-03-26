@@ -1,5 +1,5 @@
 """Contains an allocator class and exceptions that may occur in it"""
-from typing import Tuple
+from typing import *
 
 from math import log2, ceil
 from collections import Counter
@@ -19,7 +19,7 @@ class Binary:
         self.value = binary
 
     @staticmethod
-    def shorten(binary):
+    def shorten(binary: str):
         return binary if '0b' not in binary else binary[2:]
 
     def __eq__(self, other):

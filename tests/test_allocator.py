@@ -1,4 +1,5 @@
 import unittest
+from typing import Any
 
 from allocator import Block, Page, Allocator
 from errors import OutOfMemoryError, MemoryAllocationError
@@ -10,7 +11,7 @@ class TestAllocator(unittest.TestCase):
     def mock_allocator():
         return Allocator(memory=32, pages_count=4, page_size=8)
 
-    def equality_test(self, first, second):
+    def equality_test(self, first: Any, second: Any):
         """Comparison of equivalence of objects in depth"""
         for attr in first.__dict__:
             if '__eq__' in type(first.__dict__[attr]).__dict__:

@@ -1,5 +1,6 @@
 import time
 
+
 def clock(func):
     def clocked(*args, **kwargs):
         t0 = time.time()
