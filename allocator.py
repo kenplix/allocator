@@ -1,5 +1,5 @@
 """Contains an allocator class and exceptions that may occur in it"""
-from typing import *
+from typing import Tuple, Iterator
 
 from math import log2, ceil
 from collections import Counter
@@ -10,7 +10,8 @@ from errors import *
 
 class Binary:
     """Creates instances of binary numbers only"""
-    def __init__(self, binary: str):
+
+    def __init__(self, binary: str) -> None:
         binary = self.shorten(binary)
         counter = Counter(binary)
         if counter['0'] + counter['1'] != len(binary):
@@ -19,24 +20,24 @@ class Binary:
         self.value = binary
 
     @staticmethod
-    def shorten(binary: str):
+    def shorten(binary: str) -> str:
         return binary if '0b' not in binary else binary[2:]
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return True if self.value == self.shorten(other.value) else False
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'{self.value}'
 
 
-def calculate_size(start_addr: Binary, end_addr: Binary):
+def calculate_size(start_addr: Binary, end_addr: Binary) -> int:
     return int((int(end_addr.value, 2) - int(start_addr.value, 2)) / 255)
 
 
 class Block:
     """Memory block"""
 
-    def __init__(self, start_addr: str, end_addr: str, occupied_volume: int = 0):
+    def __init__(self, start_addr: str, end_addr: str, occupied_volume: int = 0) -> None:
         self.start_addr = Binary(start_addr)
         self.end_addr = Binary(end_addr)
         self.size = calculate_size(self.start_addr, self.end_addr)
@@ -48,14 +49,14 @@ class Block:
             raise OutOfMemoryError(f'The occupied space can not be more allocated: {occupied_volume=} > {self.size=}')
         self.occupied_volume = occupied_volume
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'[{self.start_addr} ... {self.end_addr}], {self.size=}, {self.occupied_volume=}'
 
 
 class Page(list):
     """Page of memory"""
 
-    def __init__(self, start_addr: str, end_addr: str, occupied_volume: int = 0):
+    def __init__(self, start_addr: str, end_addr: str, occupied_volume: int = 0) -> None:
         super().__init__([])
         self.start_addr = Binary(start_addr)
         self.end_addr = Binary(end_addr)
@@ -83,7 +84,7 @@ class Allocator:
     pages = []
     free_blocks = []
 
-    def __init__(self, memory: int, pages_count: int, page_size: int):
+    def __init__(self, memory: int, pages_count: int, page_size: int) -> None:
         self.memory = (256 * memory) - 1  # Ob11111111 -> 255
 
         div = log2(page_size)
@@ -163,7 +164,7 @@ class Allocator:
         self.free_blocks.append({'BLOCK': Block(block.start_addr.value, block.end_addr.value), 'PAGE': page})
 
     @clock
-    def dump(self) -> Page:
+    def dump(self) -> Iterator[Page]:
         """Displays existing blocks"""
         for page in self.pages:
             yield page
