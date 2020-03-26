@@ -1,6 +1,0 @@
-.*
-!.gitignore
-__pycache__
-venv
-_test.py
-setup.cfg
