@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: UTF-8 -*-
+
 """Contains an allocator class and exceptions that may occur in it"""
 from typing import Tuple, Iterator
 
