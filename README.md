@@ -1,5 +1,5 @@
-# allocator
-virtual memory allocator
+# Allocator
+Virtual memory allocator
 
 # How to run?
 1)clone or download this repository  
